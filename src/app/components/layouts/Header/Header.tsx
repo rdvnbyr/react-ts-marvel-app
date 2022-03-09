@@ -22,7 +22,7 @@ const StyledHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  height: 5rem;
+  height: 4rem;
   line-height: 5rem;
   background: var(--primary);
   color: white;
