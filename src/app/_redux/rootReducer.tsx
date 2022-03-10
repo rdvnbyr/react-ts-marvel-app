@@ -6,7 +6,7 @@ import { characterReducer } from './characters/reducer';
 
 const rootReducer = combineReducers({
   // ... reducers here
-  character: characterReducer,
+  app: characterReducer,
 });
 
 const persistConfig = {

@@ -50,4 +50,6 @@ const StyleWrapper = styled.div`
   --white: ${colors.white};
   --darkGray: ${colors.darkGray};
   --lightGray: ${colors.lightGray};
+
+  --border-radius: 3px;
 `;

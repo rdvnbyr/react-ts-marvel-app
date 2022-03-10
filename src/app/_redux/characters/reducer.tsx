@@ -1,18 +1,32 @@
-import { Character } from '../../models';
+import { Character, CharactersExtendedData } from '../../models';
 import { actionTypes } from './actionTypes';
 
 interface IAppState {
-  characters: Character[];
-  character: Character | null;
+  characters: Character[] | [];
+  character: Character;
   isLoading: boolean;
   error: any;
+  extendRequestLoading: boolean;
+  extendRequestError: any;
+  extendedDetail: CharactersExtendedData[];
 }
 
 const initialState: IAppState = {
   characters: [],
-  character: null,
+  character: {
+    id: 0,
+    name: '',
+    description: '',
+    thumbnail: {
+      path: '',
+      extension: '',
+    },
+  } as Character,
   isLoading: false,
   error: null,
+  extendRequestLoading: false,
+  extendRequestError: null,
+  extendedDetail: [],
 };
 
 export const characterReducer = (state = initialState, action: any) => {
@@ -46,7 +60,7 @@ export const characterReducer = (state = initialState, action: any) => {
       return {
         ...state,
         isLoading: false,
-        character: action.payload.character,
+        character: action.payload.character[0],
       };
     }
     case actionTypes.GET_CHARACTER_FAILURE: {
@@ -56,6 +70,32 @@ export const characterReducer = (state = initialState, action: any) => {
         error: action.payload.error,
       };
     }
+
+    // get one character extended detail
+    case actionTypes.GET_CHARACTER_EXTENDED_DETAIL_REQUEST: {
+      return {
+        ...state,
+        extendRequestLoading: true,
+        extendRequestError: null,
+      };
+    }
+    case actionTypes.GET_CHARACTER_EXTENDED_DETAIL_SUCCESS: {
+      return {
+        ...state,
+        extendRequestLoading: false,
+        extendRequestError: null,
+        extendedDetail: action.payload.extendData,
+      };
+    }
+    case actionTypes.GET_CHARACTER_EXTENDED_DETAIL_FAILURE: {
+      return {
+        ...state,
+        extendRequestLoading: false,
+        extendRequestError: action.payload.error,
+        extendedDetail: null,
+      };
+    }
+
     default:
       return state;
   }

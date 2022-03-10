@@ -30,8 +30,8 @@ export const CardFooter: React.FC = (props) => (
 
 const StyledCard = styled.div`
   border: 1px solid var(--dark);
-  border-left: none;
-  border-right: none;
+  /* border-left: none;
+  border-right: none; */
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */

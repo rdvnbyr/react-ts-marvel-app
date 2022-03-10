@@ -8,6 +8,10 @@ type AppContextValue = {
   setFilter: (filter: any) => void;
   setSearch: (search: string) => void;
   setOrder: (order: string) => void;
+  extededCharacterId: number | undefined | null;
+  showCharacterExtendedDetailDialog: boolean;
+  openCharacterExtendedDetailDialog: (id: number) => void;
+  closeCharacterExtendedDetailDialog: () => void;
 };
 
 const AppContext = createContext<AppContextValue>({} as AppContextValue);
@@ -53,12 +57,31 @@ export function AppProvider(props: { children: React.ReactNode }) {
     });
   }, [pagination, filter, search, order]);
 
+  // Character extended detail dialog
+  const [extededCharacterId, setExtededCharacterId] = useState<number | null | undefined>(
+    null
+  );
+  const [showCharacterExtendedDetailDialog, setShowCharacterExtendedDetailDialog] =
+    useState(false);
+  const openCharacterExtendedDetailDialog = useCallback((id: number) => {
+    setShowCharacterExtendedDetailDialog(true);
+    setExtededCharacterId(id);
+  }, []);
+  const closeCharacterExtendedDetailDialog = useCallback(() => {
+    setShowCharacterExtendedDetailDialog(false);
+    setExtededCharacterId(null);
+  }, []);
+
   const value: AppContextValue = {
     queryParams,
     setPagination,
     setFilter,
     setSearch,
     setOrder,
+    extededCharacterId,
+    showCharacterExtendedDetailDialog,
+    openCharacterExtendedDetailDialog,
+    closeCharacterExtendedDetailDialog,
   };
   return <AppContext.Provider value={value}>{props.children}</AppContext.Provider>;
 }

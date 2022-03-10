@@ -1,4 +1,4 @@
-export interface ActionCreatorAction<T> {
+export interface ActionCreator<T> {
   type: string;
   payload: {
     [key: string]: T;
@@ -26,4 +26,30 @@ export interface Character {
     extension: string;
   };
   resourceURI: string;
+}
+
+export interface CharactersExtendedData {
+  id: number;
+  title: string;
+  desciption?: string;
+  resourceURI: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+  images?: {
+    path: string;
+    extension: string;
+  }[];
+  prices: {
+    type: string;
+    price: number;
+  }[];
+}
+
+export enum ExtendedEndPoints {
+  comics = 'comics',
+  events = 'events',
+  series = 'series',
+  stories = 'stories',
 }
