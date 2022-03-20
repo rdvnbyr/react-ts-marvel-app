@@ -1,4 +1,4 @@
-# Deploy with vercel
+# Deployed with vercel
 https://marvel-app-three.vercel.app/
 
 # Getting Started with Create React App
