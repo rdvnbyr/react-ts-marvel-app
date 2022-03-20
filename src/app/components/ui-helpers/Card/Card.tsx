@@ -18,12 +18,18 @@ export const CardHeader = (props: CardHeaderProps) => (
     <img src={props.source} alt={props.title} />
   </StyledCardHeader>
 );
-export const CardBody: React.FC<CardBodyProps> = (props) => (
-  <StyledCardBody>
-    <h4>{props.title}</h4>
-    <p>{props.description || "There is no description"}</p>
-  </StyledCardBody>
-);
+export const CardBody: React.FC<CardBodyProps> = (props) => {
+  const description =
+    props.description &&
+    props.description.length > 200 &&
+    props.description.slice(0, 200) + '...';
+  return (
+    <StyledCardBody>
+      <h4>{props.title}</h4>
+      <p>{description || 'There is no description'}</p>
+    </StyledCardBody>
+  );
+};
 export const CardFooter: React.FC = (props) => (
   <StyledCardFooter>{props.children}</StyledCardFooter>
 );
