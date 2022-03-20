@@ -1,6 +1,9 @@
+import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui-helpers';
 import { ExtendedEndPoints } from '../models';
+import { useAppDispatch } from '../hooks';
+import { clearCharacterExtendedDetail } from '../_redux/characters/actions';
 
 import CharacterSeries from '../components/Characters/CharacterSeries';
 import CharacterComics from '../components/Characters/CharacterComics';
@@ -10,6 +13,13 @@ import CharacterStories from '../components/Characters/CharacterStories';
 function CharacterDetail() {
   const { characterId, extendedType } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearCharacterExtendedDetail());
+    };
+  }, [dispatch]);
 
   return (
     <div>

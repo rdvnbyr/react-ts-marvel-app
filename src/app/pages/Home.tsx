@@ -73,6 +73,7 @@ export default function Home() {
             <UICardBody title={character.name} description={character.description}>
               {extendedType.map((extend) => (
                 <Button
+                  key={extend}
                   isLink
                   href={`/character/${character.id}/${extend.toLowerCase()}`}
                   size={buttonSize}

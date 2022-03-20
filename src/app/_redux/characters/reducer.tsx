@@ -99,6 +99,15 @@ export const characterReducer = (state = initialState, action: any) => {
       };
     }
 
+    // Clear redux store
+    case actionTypes.CLEAR_CHARACTER_EXTENDED_DETAIL: {
+      return {
+        ...state,
+        characterExtendedDetail: [],
+        extendRequestError: null,
+      };
+    }
+
     default:
       return state;
   }

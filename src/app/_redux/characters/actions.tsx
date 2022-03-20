@@ -55,3 +55,8 @@ export const getCharacterExtendedDetailFailure = (error: any) => ({
   type: actionTypes.GET_CHARACTER_EXTENDED_DETAIL_FAILURE,
   payload: { error },
 });
+
+// Clear redux store
+export const clearCharacterExtendedDetail = () => ({
+  type: actionTypes.CLEAR_CHARACTER_EXTENDED_DETAIL,
+});

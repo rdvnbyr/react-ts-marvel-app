@@ -13,4 +13,7 @@ export const actionTypes = {
   GET_CHARACTER_EXTENDED_DETAIL_REQUEST: 'get/character/extended/detail/request',
   GET_CHARACTER_EXTENDED_DETAIL_SUCCESS: 'get/character/extended/detail/success',
   GET_CHARACTER_EXTENDED_DETAIL_FAILURE: 'get/character/extended/detail/failure',
+
+  // Clear redux store
+  CLEAR_CHARACTER_EXTENDED_DETAIL: 'clear/character/extended/detail',
 };

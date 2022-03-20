@@ -1,5 +1,6 @@
 import { isArray } from 'lodash';
 import { useEffect } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { ExtendedEndPoints } from '../../models';
 import { getCharacterExtendedDetailRequest } from '../../_redux/characters/actions';
@@ -12,7 +13,9 @@ type Props = {
 export default function CharacterStories(props: Props) {
   const { characterId } = props;
   const dispatch = useAppDispatch();
-  const { characterExtendedDetail } = useAppSelector((state) => state.app as any);
+  const { characterExtendedDetail, extendRequestLoading } = useAppSelector(
+    (state) => state.app as any
+  );
 
   useEffect(() => {
     if (characterId) {
@@ -29,8 +32,15 @@ export default function CharacterStories(props: Props) {
           Go back to home
         </Button>
       </div>
-
-      {isArray(characterExtendedDetail) &&
+      {extendRequestLoading && (
+        <div className="text-center">
+          <h1>Loading...</h1>
+          <Spinner animation="border" variant="primary" />
+        </div>
+      )}
+      {!extendRequestLoading &&
+        isArray(characterExtendedDetail) &&
+        characterExtendedDetail.length > 0 &&
         characterExtendedDetail.map((item) => (
           <Card key={item.id}>
             <CardBody title={item.title} description={item.description} />

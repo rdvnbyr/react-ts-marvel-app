@@ -3,8 +3,9 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { ExtendedEndPoints } from '../../models';
 import { getCharacterExtendedDetailRequest } from '../../_redux/characters/actions';
-import { Card, CardBody, CardHeader, CardFooter, Button } from '../ui-helpers';
+import { Card, CardBody, CardHeader, Button } from '../ui-helpers';
 import { camelCaseSplit } from '../../helpers';
+import { Spinner } from 'react-bootstrap';
 
 type Props = {
   characterId: string | number;
@@ -13,7 +14,9 @@ type Props = {
 export default function CharacterComics(props: Props) {
   const { characterId } = props;
   const dispatch = useAppDispatch();
-  const { characterExtendedDetail } = useAppSelector((state) => state.app as any);
+  const { characterExtendedDetail, extendRequestLoading } = useAppSelector(
+    (state) => state.app as any
+  );
 
   useEffect(() => {
     if (characterId) {
@@ -28,8 +31,15 @@ export default function CharacterComics(props: Props) {
           Go back to home
         </Button>
       </div>
-
-      {isArray(characterExtendedDetail) &&
+      {extendRequestLoading && (
+        <div className="text-center">
+          <h1>Loading...</h1>
+          <Spinner animation="border" variant="primary" />
+        </div>
+      )}
+      {!extendRequestLoading &&
+        isArray(characterExtendedDetail) &&
+        characterExtendedDetail.length > 0 &&
         characterExtendedDetail.map((item) => (
           <Card key={item.id}>
             <CardHeader
