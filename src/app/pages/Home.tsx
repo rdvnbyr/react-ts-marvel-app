@@ -40,6 +40,18 @@ export default function Home() {
     dispatch(getCharactersRequest(ctxProps.queryParams));
   }, [ctxProps.queryParams, dispatch]);
 
+  useEffect(() => {
+    try {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    } catch (error) {
+      window.scrollTo(0, 0);
+    }
+  }, [ctxProps.pagination]);
+
   const pageWidth = useWindowResizeListener();
   const buttonSize = useMemo(() => {
     if (pageWidth < 768) {
