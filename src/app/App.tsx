@@ -13,13 +13,16 @@ function App() {
       <PersistGate persistor={persistor}>
         <StyleProvider>
           <AppProvider>
-            <>
-              <Header />
-              <main style={{ minHeight: '100vh', marginTop: '4rem' }}>
-                <Router />
-              </main>
-              <Footer />
-            </>
+            <Header />
+            <main
+              style={{
+                minHeight: '100vh',
+                marginTop: '8rem',
+              }}
+            >
+              <Router />
+            </main>
+            <Footer />
           </AppProvider>
         </StyleProvider>
       </PersistGate>

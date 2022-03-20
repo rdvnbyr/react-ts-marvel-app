@@ -14,4 +14,5 @@ const StyledFooter = styled.footer`
   font-size: 0.8rem;
   color: var(--white);
   height: 3rem;
+  width: 100%;
 `;

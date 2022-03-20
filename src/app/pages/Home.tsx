@@ -1,12 +1,24 @@
 import { useEffect, useMemo } from 'react';
+import styled from 'styled-components';
 import { useAppContext } from '../context/app-context';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { Character } from '../models';
+import { useAppDispatch, useAppSelector, useWindowResizeListener } from '../hooks';
 import { getCharactersRequest } from '../_redux/characters/actions';
-import { BootstrapTableWrapper, Button } from '../components/ui-helpers';
-import BootstrapTable from 'react-bootstrap-table-next';
+import {
+  Button,
+  UICard,
+  UICardBody,
+  UICardImageContainer,
+} from '../components/ui-helpers';
 import { isArray } from 'lodash';
-import { Link } from 'react-router-dom';
+import { Pagination } from '../components/ui-helpers/Pagination/Pagination';
+
+const extendedType = ['Series', 'Comics', 'Stories', 'Events'];
+const getColor: { [key: string]: string } = {
+  Series: 'primary',
+  Comics: 'secondary',
+  Stories: 'info',
+  Events: 'success',
+};
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -14,85 +26,80 @@ export default function Home() {
   const ctxProps = useMemo(
     () => ({
       queryParams: appCtx.queryParams,
+      pagination: appCtx.pagination,
+      setPagination: appCtx.setPagination,
     }),
-    [appCtx.queryParams]
+    [appCtx.pagination, appCtx.queryParams, appCtx.setPagination]
   );
 
-  const { characters } = useAppSelector((state) => state.app);
+  const { characters, isLoading, totalCharacters } = useAppSelector(
+    (state) => state.app
+  ) as any;
 
   useEffect(() => {
     dispatch(getCharactersRequest(ctxProps.queryParams));
   }, [ctxProps.queryParams, dispatch]);
 
-  const columns = [
-    {
-      dataField: 'id',
-      text: 'ID',
-      hidden: true,
-    },
-    {
-      dataField: 'thumbnail',
-      text: 'Avatar',
-      classes: 'text-right pr-0',
-      headerClasses: 'text-right pr-3',
-      style: {
-        minWidth: '100px',
-        maxWidth: '100px',
-      },
-      formatter: (
-        _cell: any,
-        row: { thumbnail: { path: string; extension: string }; name: string | undefined }
-      ) => (
-        <img
-          src={`${row.thumbnail.path}/landscape_incredible.${row.thumbnail.extension}`}
-          alt={row.name}
-          style={{ width: '100%' }}
-        />
-      ),
-    },
-    {
-      dataField: 'name',
-      text: 'Name',
-      style: {
-        minWidth: '150px',
-      },
-    },
-    {
-      dataField: 'description',
-      text: 'Description',
-      style: {
-        minWidth: '400px',
-      },
-    },
-    {
-      dataField: 'Action',
-      text: 'Action',
-      classes: 'text-right',
-      headerClasses: 'text-right',
-      style: {
-        minWidth: '200px',
-        display: 'flex',
-        justifyContent: 'flex-start',
-      },
-      formatter: (_cell: any, row: Character) => (
-        <Link to={`/${row.id}/character-detail`}>Wiew</Link>
-      ),
-    },
-  ];
+  const pageWidth = useWindowResizeListener();
+  const buttonSize = useMemo(() => {
+    if (pageWidth < 768) {
+      return 'sm';
+    }
+    if (pageWidth < 992) {
+      return 'md';
+    }
+    return 'lg';
+  }, [pageWidth]);
 
   return (
-    <div>
-      <BootstrapTableWrapper>
-        <BootstrapTable
-          wrapperClasses="table-responsive"
-          classes="table table-head-custom table-vertical-center overflow-hidden"
-          bootstrap4
-          bordered={true}
-          keyField="id"
-          data={characters && isArray(characters) ? characters : []}
-          columns={columns}
+    <StyledDiv>
+      {!characters && <h1>No characters found</h1>}
+      {isArray(characters) && characters.length > 0 && (
+        <Pagination
+          loading={isLoading}
+          paginationParams={ctxProps.pagination}
+          setPaginationParams={ctxProps.setPagination}
+          pageSize={characters.length}
+          totalSize={totalCharacters}
         />
-      </BootstrapTableWrapper>
-    </div>
+      )}
+      {isArray(characters) &&
+        characters.map((character) => (
+          <UICard key={character.id}>
+            <UICardImageContainer
+              src={`${character.thumbnail.path}/landscape_incredible.${character.thumbnail.extension}`}
+              title={character.name}
+            />
+            <UICardBody title={character.name} description={character.description}>
+              {extendedType.map((extend) => (
+                <Button
+                  isLink
+                  href={`/character/${character.id}/${extend.toLowerCase()}`}
+                  size={buttonSize}
+                  color={getColor[extend]}
+                >
+                  {extend}
+                </Button>
+              ))}
+            </UICardBody>
+          </UICard>
+        ))}
+      {isArray(characters) && characters.length > 0 && (
+        <Pagination
+          loading={isLoading}
+          paginationParams={ctxProps.pagination}
+          setPaginationParams={ctxProps.setPagination}
+          pageSize={characters.length}
+          totalSize={totalCharacters}
+        />
+      )}
+    </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;

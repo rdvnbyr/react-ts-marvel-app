@@ -10,9 +10,9 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'app-smart',
+  key: 'app-smart-marvel-app',
   storage,
-  whitelist: ['character', 'characters'],
+  whitelist: [],
 };
 
 export const persistedRootReducer = persistReducer(persistConfig, rootReducer);

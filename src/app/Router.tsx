@@ -7,6 +7,10 @@ export function Router() {
   return (
     <Routes>
       <Route path="/" element={<Home />}></Route>
+      <Route
+        path="/character/:characterId/:extendedType"
+        element={<CharacterDetail />}
+      ></Route>
       <Route path=":characterId/character-detail" element={<CharacterDetail />}>
         <Route path=":extend" element={<CharacterExtendedDetailDialog />}></Route>
       </Route>

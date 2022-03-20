@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { getApiUrl } from '../../helpers';
+import { urlHelpers } from '../../helpers';
 import { ActionCreator, ExtendedEndPoints, QueryParams } from '../../models';
 import {
   getCharacterExtendedDetailFailure,
@@ -12,13 +12,18 @@ import {
 } from './actions';
 import { actionTypes } from './actionTypes';
 
-function* getCharacters(action: ActionCreator<QueryParams>): any {
+function* getCharacters(action: ActionCreator<{ queryParams: QueryParams }>): any {
   try {
     const { queryParams } = action.payload;
     const response = yield call(async () => {
-      return await axios.get(getApiUrl(queryParams));
+      return await axios.get(urlHelpers.getCharacters(queryParams));
     });
-    yield put(getCharactersSuccess(response.data?.data?.results || []));
+    yield put(
+      getCharactersSuccess(
+        response.data?.data?.results || [],
+        response.data?.data?.total || 0
+      )
+    );
   } catch (error) {
     yield put(getCharactersFailure(error));
   }
@@ -28,9 +33,7 @@ function* getCharacterById(action: ActionCreator<{ id: number }>): any {
   try {
     const { id } = action.payload;
     const response = yield call(async () => {
-      return await axios.get(
-        `https://gateway.marvel.com:443/v1/public/characters/${id}?ts=1&apikey=${process.env.REACT_APP_MARVEL_API_PUBLIC_KEY}&hash=${process.env.REACT_APP_MARVEL_API_HASH_STRING}`
-      );
+      return await axios.get(urlHelpers.getCharacterById(id));
     });
     yield put(getCharacterSuccess(response.data?.data?.results || []));
   } catch (error) {
@@ -44,9 +47,7 @@ function* getCharacterExtendedDetail(
   try {
     const { id, extendedEndpoint } = action.payload;
     const response = yield call(async () => {
-      return await axios.get(
-        `https://gateway.marvel.com:443/v1/public/characters/${id}/${extendedEndpoint}?ts=1&apikey=${process.env.REACT_APP_MARVEL_API_PUBLIC_KEY}&hash=${process.env.REACT_APP_MARVEL_API_HASH_STRING}`
-      );
+      return await axios.get(urlHelpers.getCharacterExtendedDetail(id, extendedEndpoint));
     });
     if (response.data.code === 200) {
       yield put(getCharacterExtendedDetailSuccess(response.data?.data?.results || []));

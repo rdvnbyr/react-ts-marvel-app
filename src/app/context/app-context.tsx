@@ -1,10 +1,11 @@
-import { isInteger } from 'lodash';
+import { isFunction } from 'lodash';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { QueryParams } from '../models';
 
 type AppContextValue = {
   queryParams: QueryParams;
-  setPagination: (page: number, perPage: number) => void;
+  pagination: { page: number; sizePerPage: number };
+  setPagination: (nextParams: Function) => void;
   setFilter: (filter: any) => void;
   setSearch: (search: string) => void;
   setOrder: (order: string) => void;
@@ -14,13 +15,9 @@ type AppContextValue = {
   closeCharacterExtendedDetailDialog: () => void;
 };
 
-const AppContext = createContext<AppContextValue>({} as AppContextValue);
-
-export const useAppContext = () => useContext(AppContext);
-
 const initialPagination = {
   page: 1,
-  perPage: 10,
+  sizePerPage: 10,
 };
 const initialFilter = null;
 const initialSearch = '';
@@ -32,14 +29,14 @@ const initialQueryParams = {
   order: initialOrder,
 };
 
+const AppContext = createContext<AppContextValue>({} as AppContextValue);
+export const useAppContext = () => useContext(AppContext);
+
 export function AppProvider(props: { children: React.ReactNode }) {
   const [pagination, setPaginationBase] = useState(initialPagination);
-  const setPagination = useCallback((page, perPage) => {
-    if (isInteger(page) && isInteger(perPage)) {
-      return setPaginationBase({
-        page,
-        perPage,
-      });
+  const setPagination = useCallback((nextParams) => {
+    if (isFunction(nextParams)) {
+      return setPaginationBase(nextParams);
     }
     return setPaginationBase(initialPagination);
   }, []);
@@ -74,6 +71,7 @@ export function AppProvider(props: { children: React.ReactNode }) {
 
   const value: AppContextValue = {
     queryParams,
+    pagination,
     setPagination,
     setFilter,
     setSearch,

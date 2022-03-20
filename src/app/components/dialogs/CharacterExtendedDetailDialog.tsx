@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useAppContext } from '../../context/app-context';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { ExtendedEndPoints } from '../../models';
 import { getCharacterExtendedDetailRequest } from '../../_redux/characters/actions';
 import { Button } from '../ui-helpers';
@@ -21,8 +21,6 @@ export const CharacterExtendedDetailDialog = () => {
       appCtx.showCharacterExtendedDetailDialog,
     ]
   );
-
-  const {extendedDetail} = useAppSelector((state) => state.app);
 
   useEffect(() => {
     console.log('CharacterExtendedDetailDialog');

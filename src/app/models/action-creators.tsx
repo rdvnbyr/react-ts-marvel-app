@@ -1,14 +1,12 @@
 export interface ActionCreator<T> {
   type: string;
-  payload: {
-    [key: string]: T;
-  };
+  payload: T;
 }
 
 export interface QueryParams {
   pagination: {
     page: number;
-    perPage: number;
+    sizePerPage: number;
   };
   filter?: {
     [key: string]: any;
@@ -45,6 +43,7 @@ export interface CharactersExtendedData {
     type: string;
     price: number;
   }[];
+  [key: string]: any;
 }
 
 export enum ExtendedEndPoints {

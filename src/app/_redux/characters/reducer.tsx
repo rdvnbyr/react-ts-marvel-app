@@ -8,7 +8,8 @@ interface IAppState {
   error: any;
   extendRequestLoading: boolean;
   extendRequestError: any;
-  extendedDetail: CharactersExtendedData[];
+  characterExtendedDetail: CharactersExtendedData[] | [];
+  totalCharacters: number;
 }
 
 const initialState: IAppState = {
@@ -22,11 +23,12 @@ const initialState: IAppState = {
       extension: '',
     },
   } as Character,
+  totalCharacters: 0,
   isLoading: false,
   error: null,
   extendRequestLoading: false,
   extendRequestError: null,
-  extendedDetail: [],
+  characterExtendedDetail: [],
 };
 
 export const characterReducer = (state = initialState, action: any) => {
@@ -45,6 +47,7 @@ export const characterReducer = (state = initialState, action: any) => {
         ...state,
         isLoading: false,
         characters: action.payload.characters,
+        totalCharacters: action.payload.totalCharacters,
       };
     }
     case actionTypes.GET_CHARACTERS_FAILURE: {
@@ -84,7 +87,7 @@ export const characterReducer = (state = initialState, action: any) => {
         ...state,
         extendRequestLoading: false,
         extendRequestError: null,
-        extendedDetail: action.payload.extendData,
+        characterExtendedDetail: action.payload.extendData,
       };
     }
     case actionTypes.GET_CHARACTER_EXTENDED_DETAIL_FAILURE: {
@@ -92,7 +95,7 @@ export const characterReducer = (state = initialState, action: any) => {
         ...state,
         extendRequestLoading: false,
         extendRequestError: action.payload.error,
-        extendedDetail: null,
+        characterExtendedDetail: [],
       };
     }
 

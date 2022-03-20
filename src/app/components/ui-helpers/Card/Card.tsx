@@ -7,7 +7,7 @@ type CardHeaderProps = {
 };
 type CardBodyProps = {
   title: string;
-  description: string;
+  description: string | null | undefined;
 };
 
 export const Card = (props: { children: React.ReactNode }) => (
@@ -54,6 +54,7 @@ const StyledCardHeader = styled.div`
 const StyledCardBody = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 1rem;
   h4 {
     font-size: 1.2rem;
     font-weight: bold;
@@ -70,4 +71,5 @@ const StyledCardFooter = styled.div`
   justify-content: flex-start;
   margin-top: auto;
   margin-bottom: 1rem;
+  padding: 1rem;
 `;
