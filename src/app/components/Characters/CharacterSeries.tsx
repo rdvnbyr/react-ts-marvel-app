@@ -38,6 +38,13 @@ export default function CharacterSeries(props: Props) {
       )}
       {!extendRequestLoading &&
         isArray(characterExtendedDetail) &&
+        characterExtendedDetail.length === 0 && (
+          <div className="text-center">
+            <h1>No series found</h1>
+          </div>
+        )}
+      {!extendRequestLoading &&
+        isArray(characterExtendedDetail) &&
         characterExtendedDetail.length > 0 &&
         characterExtendedDetail.map((item) => (
           <Card key={item.id}>
