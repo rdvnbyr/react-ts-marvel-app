@@ -26,7 +26,7 @@ export default function CharacterEvents(props: Props) {
   return (
     <div className="row justify-content-center text-center">
       <div className="text-center">
-        <Button isLink href="/" color="secondary">
+        <Button isLink href="/" color="warning">
           Go back to home
         </Button>
       </div>

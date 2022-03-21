@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { getPages, getPagesCount } from '../../../helpers';
-import { PaginationProps, PaginationParams } from '../../../models';
-import { Pagination } from 'react-bootstrap';
+import { getPages, getPagesCount } from "../../../helpers";
+import { PaginationProps, PaginationParams } from "./pagination.models";
+import { Pagination } from "react-bootstrap";
+import { uuidv4 } from "../../../helpers";
 
 export function PaginationLinks(props: PaginationProps) {
   const { paginationParams, setPaginationParams, totalSize, paginationSize } = props;
@@ -9,22 +10,22 @@ export function PaginationLinks(props: PaginationProps) {
   const pages = getPages(paginationParams.page, pagesCount, paginationSize || 5);
 
   const tablePaginationHandler = (page: string) => {
-    page === 'previous'
+    page === "previous"
       ? setPaginationParams((prev: PaginationParams) => ({
           ...prev,
           page: +prev.page === 1 ? +prev.page : +prev.page - 1,
         }))
-      : page === 'next'
+      : page === "next"
       ? setPaginationParams((prev: PaginationParams) => ({
           ...prev,
           page: +pagesCount === +prev.page ? +prev.page : +prev.page + 1,
         }))
-      : page === 'first-page'
+      : page === "first-page"
       ? setPaginationParams((prev: PaginationParams) => ({
           ...prev,
           page: 1,
         }))
-      : page === 'last-page'
+      : page === "last-page"
       ? setPaginationParams((prev: PaginationParams) => ({
           ...prev,
           page: +pagesCount,
@@ -40,13 +41,13 @@ export function PaginationLinks(props: PaginationProps) {
       {pagesCount < 2 && <></>}
       {pagesCount > 1 && (
         <Pagination>
-          <Pagination.First onClick={() => tablePaginationHandler('first-page')} />
-          <Pagination.Prev onClick={() => tablePaginationHandler('previous')} />
+          <Pagination.First onClick={() => tablePaginationHandler("first-page")} />
+          <Pagination.Prev onClick={() => tablePaginationHandler("previous")} />
           {paginationParams.page > 3 && <Pagination.Ellipsis />}
           {pages.length > 0 &&
             pages.map((p: number) => (
               <Pagination.Item
-                key={p.toString()}
+                key={uuidv4()}
                 onClick={() => tablePaginationHandler(p.toString())}
                 active={p === paginationParams.page}
               >
@@ -54,8 +55,8 @@ export function PaginationLinks(props: PaginationProps) {
               </Pagination.Item>
             ))}
           {paginationParams.page < pagesCount - 3 && <Pagination.Ellipsis />}
-          <Pagination.Last onClick={() => tablePaginationHandler('last-page')} />
-          <Pagination.Next onClick={() => tablePaginationHandler('next')} />
+          <Pagination.Next onClick={() => tablePaginationHandler("next")} />
+          <Pagination.Last onClick={() => tablePaginationHandler("last-page")} />
         </Pagination>
       )}
     </>

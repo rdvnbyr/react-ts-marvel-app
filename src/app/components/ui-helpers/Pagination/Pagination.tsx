@@ -1,6 +1,6 @@
 import { PaginationLinks } from './PaginationLinks';
 import { PaginationToolbar } from './PaginationToolbar';
-import { PaginationProps } from '../../../models';
+import { PaginationProps } from './pagination.models';
 
 export function Pagination(props: PaginationProps) {
   return (

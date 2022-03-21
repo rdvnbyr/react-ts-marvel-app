@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 export function UICard(props: { children: React.ReactNode }) {
   return <StyledUICard>{props.children}</StyledUICard>;
@@ -7,7 +7,7 @@ export function UICard(props: { children: React.ReactNode }) {
 export function UICardImageContainer(props: { src: string; title?: string }) {
   return (
     <StyledUICardImageContainer>
-      <img src={props.src} alt={props.title || 'no-title'} />
+      <img src={props.src} alt={props.title || "no-title"} />
     </StyledUICardImageContainer>
   );
 }
@@ -19,7 +19,7 @@ export function UICardBody(props: {
   return (
     <StyledUICardBody>
       <h4>{props.title}</h4>
-      <p>{props.description || 'There is no description'}</p>
+      <p>{props.description || "There is no description"}</p>
       <StyledUICardBodyLinks>{props.children}</StyledUICardBodyLinks>
     </StyledUICardBody>
   );
@@ -32,6 +32,9 @@ const StyledUICard = styled.div`
   align-items: center;
   width: 56rem;
   margin: 1rem 0;
+  @media (max-width: 992px) {
+    width: 42rem;
+  }
   @media (max-width: 600px) {
     width: 18rem;
     flex-direction: column;
@@ -45,16 +48,11 @@ const StyledUICardImageContainer = styled.div`
   height: auto;
   border-radius: var(--border-radius);
   & img {
-    width: 24rem;
+    width: 100%;
     height: 100%;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 992px) {
     width: 18rem;
-    height: auto;
-    & img {
-      width: 18rem;
-      height: 100%;
-    }
   }
 `;
 
@@ -73,14 +71,24 @@ const StyledUICardBody = styled.div`
     font-size: 1rem;
     margin: 0.5rem 0;
   }
+  @media (max-width: 992px) {
+    width: 24rem;
+    padding: 0.5rem;
+    h4 {
+      font-size: 1.1rem;
+    }
+    p {
+      font-size: 0.75rem;
+    }
+  }
   @media (max-width: 600px) {
     width: 18rem;
-    padding: 0.5rem;
+    padding: 0rem;
     h4 {
       font-size: 1rem;
     }
     p {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
   }
 `;
@@ -93,5 +101,10 @@ const StyledUICardBodyLinks = styled.div`
   margin-top: 1rem;
   button {
     margin-right: 0.5rem;
+  }
+  @media (max-width: 600px) {
+    button {
+    margin-right: 0.2rem;
+  }
   }
 `;

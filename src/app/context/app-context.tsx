@@ -1,12 +1,13 @@
-import { isFunction } from 'lodash';
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { QueryParams } from '../models';
+import { isFunction } from "lodash";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { QueryParams } from "../models";
 
 type AppContextValue = {
   queryParams: QueryParams;
   pagination: { page: number; sizePerPage: number };
   setPagination: (nextParams: Function) => void;
   setFilter: (filter: any) => void;
+  search: string;
   setSearch: (search: string) => void;
   setOrder: (order: string) => void;
   extededCharacterId: number | undefined | null;
@@ -20,8 +21,8 @@ const initialPagination = {
   sizePerPage: 10,
 };
 const initialFilter = null;
-const initialSearch = '';
-const initialOrder = '';
+const initialSearch = "";
+const initialOrder = "";
 const initialQueryParams = {
   pagination: initialPagination,
   filter: initialFilter,
@@ -55,9 +56,7 @@ export function AppProvider(props: { children: React.ReactNode }) {
   }, [pagination, filter, search, order]);
 
   // Character extended detail dialog
-  const [extededCharacterId, setExtededCharacterId] = useState<number | null | undefined>(
-    null
-  );
+  const [extededCharacterId, setExtededCharacterId] = useState<number | null | undefined>(null);
   const [showCharacterExtendedDetailDialog, setShowCharacterExtendedDetailDialog] =
     useState(false);
   const openCharacterExtendedDetailDialog = useCallback((id: number) => {
@@ -74,6 +73,7 @@ export function AppProvider(props: { children: React.ReactNode }) {
     pagination,
     setPagination,
     setFilter,
+    search,
     setSearch,
     setOrder,
     extededCharacterId,

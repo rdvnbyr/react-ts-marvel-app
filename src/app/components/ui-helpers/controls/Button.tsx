@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import styled from "styled-components";
+import React from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   children: React.ReactNode;
@@ -13,8 +13,8 @@ type Props = {
 };
 
 export const Button: React.FC<Props> = (props) =>
-  props.isLink ? (
-    <Link to={props.href ? props.href : ''}>
+  props.isLink && props.href ? (
+    <Link to={props.href}>
       <StyledButton {...props}>{props.children}</StyledButton>
     </Link>
   ) : (
@@ -22,7 +22,7 @@ export const Button: React.FC<Props> = (props) =>
   );
 
 const StyledButton = styled.button.attrs((props) => ({
-  type: props.type || 'button',
+  type: props.type || "button",
 }))<Props>`
   cursor: pointer;
   background-color: ${(props) => `var(--${props.color})`};
@@ -31,10 +31,10 @@ const StyledButton = styled.button.attrs((props) => ({
   color: ${(props) => `var(--${props.color}-inverse)`};
   padding: 0.65rem 1.25rem;
   font-weight: bold;
-  ${(props) => props.size === 'sm' && 'padding: 0.35rem 0.85rem;'}
-  ${(props) => props.size === 'sm' && 'font-size: 0.8rem;'}
-  ${(props) => props.size === 'lg' && 'padding: 1rem 2rem;'}
-  ${(props) => props.size === 'xl' && 'padding: 1.25rem 2.45rem;'}
+  ${(props) => props.size === "sm" && "padding: 0.35rem 0.85rem;"}
+  ${(props) => props.size === "sm" && "font-size: 0.8rem;"}
+  ${(props) => props.size === "lg" && "padding: 1rem 2rem;"}
+  ${(props) => props.size === "xl" && "padding: 1.25rem 2.45rem;"}
   /* height: 3rem; */
   &:hover,
   &:active {
